@@ -30,11 +30,11 @@ public class 滑动窗口的最大值 {
         int[] res = new int[nums.length - k + 1];
         Deque<Integer> queue=new ArrayDeque<>();
         for(int i=0, j=-k+1;i<nums.length;i++,j++){
-            //先删除左
+            //先删除最左 因为要来新值nums[i]
             if(j>=1&&queue.peekFirst()==nums[j-1]){
                 queue.removeFirst();
             }
-            //后删除队列里的右边
+            //后判断是否队列右边的值小于nums[i]，若是就删除队列里的右边
             while(!queue.isEmpty()&&queue.peekLast()<nums[i]){
                 queue.removeLast();
             }
