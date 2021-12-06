@@ -70,3 +70,4 @@ PasswordEncoder
 5、从header获取token 从token获取用户名 从redis获取权限列表
 
 6、由springsecurity给 当前用户赋予权限，可以进行相应操作
+
