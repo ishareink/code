@@ -1,25 +1,117 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <!-- 模型版本。maven2.0必须是这样写，现在是maven2唯一支持的版本 -->
     <modelVersion>4.0.0</modelVersion>
-
-    <groupId>com.yanan.spark_maven</groupId>
-    <artifactId>spark1.3.1</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <!-- 项目组织的唯一标识符 ：对应JAVA的包的结构，是main目录里java的目录结构-->
+    <groupId>cn.mg</groupId>
+    <!-- 项目的唯一标志：项目名-->
+    <artifactId>code</artifactId>
+    <!-- 项目的版本号（简明）-->
+    <version>1.0</version>
+    <!-- 打包的机制  默认为jar -->
     <packaging>jar</packaging>
 
-    <name>spark_maven</name>
+    <!-- 让用户更加能够接受的项目名 -->
+    <name>code</name>
     <url>http://maven.apache.org</url>
+    <!-- 此项目继承的项目 -->
+    <parent>
+        <groupId>org.springframework.boot</groupId>
+        <artifactId>spring-boot-starter-parent</artifactId>
+        <version>2.5.12</version>
+        <relativePath />
+    </parent>
 
+    <!-- 项目的基本属性配置 -->
     <properties>
+        <!-- 编码格式 -->
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <jackson.version>1.9.13</jackson.version>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+        <!-- Java版本  查看方法见下方备注1-->
+        <java.version>1.8</java.version>
+        <!--Hibernate版本号-->
+        <hibernate.version>5.1.12.Final</hibernate.version>
+        <!--启动类-->
+        <start-class>cn.mg.file.FileManageApp</start-class>
     </properties>
 
+    <!-- 项目的依赖结构 -->
     <dependencies>
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>21.0</version>
+        </dependency>
+        <!--原有配置 -->
+        <dependency>
+            <groupId>junit</groupId>
+            <artifactId>junit</artifactId>
+            <version>3.8.1</version>
+            <scope>test</scope>
+        </dependency>
+        <!--新增：web应用基本环境配置 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!--新增：常用配置 -->
+        <!--Tomcat支持-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-tomcat</artifactId>
+            <!--scope的值：详细见下方备注2-->
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!--使用JSP必要依赖->
+               <dependency>
+                   <groupId>org.apache.tomcat.embed</groupId>
+                   <artifactId>tomcat-embed-jasper</artifactId>
+               </dependency>
+        JSP标签库->
+               <dependency>
+                   <groupId>javax.servlet</groupId>
+                   <artifactId>jstl</artifactId>
+               </dependency>
+        Spring aop支持:面向切面编程-->
+
 
     </dependencies>
 
-
-
+    <!--构建设置，主要包含两个部分：plugins设置构建的插件和resources排除或者删除资源文件-->
+    <build>
+        <!--使用的插件列表  此处直接用父项目的plugins-->
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+        </plugins>
+        <!--项目相关的所有资源路径列表，例如和项目相关的配置文件、属性文件，这些资源被包含在最终的打包文件里。 -->
+        <resources>
+            <resource>
+                <directory>src/main/webapp</directory>
+                <!--将directory文件打包到targetPath-->
+                <targetPath>META-INF/resources</targetPath>
+                <!--包含的模式列表-->
+                <includes>
+                    <include>**/**</include>
+                </includes>
+            </resource>
+            <resource>
+                <directory>src/main/resources</directory>
+                <targetPath>BOOT-INF/classes</targetPath>
+                <includes>
+                    <include>**/**</include>
+                </includes>
+                <!--是否将资源文件中的占位符替换成对应的值  详细见下方备注3-->
+                <filtering>false</filtering>
+            </resource>
+        </resources>
+    </build>
 
 </project>
